@@ -2,6 +2,8 @@
 
 
 #include "XPlayerCharacter.h"
+#include "XPlayerController.h"
+#include "GameFramework/PawnMovementComponent.h"
 
 AXPlayerCharacter::AXPlayerCharacter()
 {
@@ -36,3 +38,31 @@ void AXPlayerCharacter::SetupPlayerInputComponent(class UInputComponent * Player
 	}
 }
 
+void AXPlayerCharacter::UpdateAbilityFactor() 
+{
+	InitAbilityFactor();
+	FHitResult HitResult;
+	Cast<AXPlayerController>(GetController())->GetHitResultUnderCursorByChannel(TraceTypeQuery2, true, HitResult);
+	if (HitResult.bBlockingHit)
+	{
+		if (HitResult.GetActor()->Tags.Contains("Monster")) {
+			ReleaseTarget.TargetActor = HitResult.GetActor();
+		}
+		ReleaseTarget.TargetLocation = HitResult.Location;
+	}
+}
+
+void AXPlayerCharacter::InitAbilityFactor()
+{
+	ReleaseTarget.TargetActor = nullptr;
+	ReleaseTarget.TargetLocation = FVector(NAN);
+	ReleaseTarget.FireAbility = nullptr;
+}
+
+void AXPlayerCharacter::StartFireAbility()
+{
+	GetMovementComponent()->StopActiveMovement();
+	if (ReleaseTarget.FireAbility) {
+		MyAbilitySystemComponent->TryActivateAbilityByClass(ReleaseTarget.FireAbility);
+	}
+}

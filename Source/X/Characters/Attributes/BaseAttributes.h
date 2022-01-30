@@ -48,7 +48,7 @@ private:
 
 	virtual void PostAttributeChange(const FGameplayAttribute & Attribute,float OldValue,float NewValue) override;
 
-	virtual void PostAttributeBaseChange(const FGameplayAttribute & Attribute,float OldValue,float NewValue) const;
+	virtual void PostAttributeBaseChange(const FGameplayAttribute & Attribute,float OldValue,float NewValue) const override;
 
 	UFUNCTION()
 	virtual void OnRep_Body(const FGameplayAttributeData& OldBody);

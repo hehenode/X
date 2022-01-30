@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "XPlayerCharacter.h"
 #include "XPlayerController.generated.h"
 
 UCLASS()
@@ -13,13 +14,17 @@ class AXPlayerController : public APlayerController
 
 public:
 	AXPlayerController();
-
+	
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
+	AXPlayerCharacter* MyPawn;
+	
+	virtual void AcknowledgePossession(class APawn * P) override;
 
 	// Begin PlayerController interface
 	virtual void PlayerTick(float DeltaTime) override;
+	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	// End PlayerController interface
 

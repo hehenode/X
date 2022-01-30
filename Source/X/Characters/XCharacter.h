@@ -36,6 +36,9 @@ public:
 	/*角色等级*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Level")
 	int32 CharacterLevel=1;
+	/*根据输入判断距离*/
+	UFUNCTION(BlueprintCallable)
+	bool ReachReleaseDistance(const FVector TargetLocation, const float Distance);
 
 private:
 	//初始化属性

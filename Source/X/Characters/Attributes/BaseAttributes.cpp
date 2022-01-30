@@ -64,8 +64,9 @@ void UBaseAttributes::PostAttributeChange(const FGameplayAttribute & Attribute,f
 	}
 }
 
-void UBaseAttributes::PostAttributeBaseChange(const FGameplayAttribute & Attribute,float OldValue,float NewValue)const
+void UBaseAttributes::PostAttributeBaseChange(const FGameplayAttribute & Attribute,float OldValue,float NewValue) const
 {
+	Super::PostAttributeBaseChange(Attribute, OldValue, NewValue);
 	if(Attribute==GetBodyAttribute())
 	{
 		OnAttributeChange.Broadcast(NewValue,"Body");

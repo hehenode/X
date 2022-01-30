@@ -12,6 +12,23 @@ AXPlayerController::AXPlayerController()
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
 }
 
+void AXPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	MyPawn = Cast<AXPlayerCharacter>(GetPawn());
+}
+
+void AXPlayerController::AcknowledgePossession(APawn* P)
+{
+	Super::AcknowledgePossession(P);
+
+	AXPlayerCharacter* CharacterBase = Cast<AXPlayerCharacter>(P);
+	if (CharacterBase)
+	{
+		CharacterBase->GetAbilitySystemComponent()->InitAbilityActorInfo(CharacterBase, CharacterBase);
+	}
+}
+
 void AXPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
@@ -51,7 +68,7 @@ void AXPlayerController::MoveToMouseCursor()
 
 void AXPlayerController::MoveToTouchLocation(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
-	FVector2D ScreenSpaceLocation(Location);
+	const FVector2D ScreenSpaceLocation(Location);
 
 	// Trace to see what is under the touch location
 	FHitResult HitResult;
@@ -65,7 +82,6 @@ void AXPlayerController::MoveToTouchLocation(const ETouchIndex::Type FingerIndex
 
 void AXPlayerController::SetNewMoveDestination(const FVector DestLocation)
 {
-	APawn* const MyPawn = GetPawn();
 	if (MyPawn)
 	{
 		float const Distance = FVector::Dist(DestLocation, MyPawn->GetActorLocation());

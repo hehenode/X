@@ -101,3 +101,7 @@ void AXCharacter::AddStartUpEffects()
 	MyAbilitySystemComponent->bHasApplyStartupEffects = true;
 }
 
+bool AXCharacter::ReachReleaseDistance(const FVector TargetLocation, const float Distance)
+{
+	return FVector::Dist(GetActorLocation(), TargetLocation) < Distance;
+}
